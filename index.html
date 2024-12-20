@@ -1,0 +1,28 @@
+<html>
+  <p>
+    Making a request to https://fly.storage.tigris.dev/tigris-cors.protomaps.dev/blank.txt works fine.
+    <br/>
+    Setting a custom domain (https://tigris-cors.protomaps.dev) does not enable CORS by default.
+    <br/>
+    So we set a tigris CORS with these allowed headers: `X-Custom-Header`:
+
+  </p>
+  result code: <div id="result1"></div>
+  result code: <div id="result2"></div>
+  error: <div id="error"></div>
+  <script>
+    const URL = "https://tigris-cors.protomaps.dev/blank.txt";
+
+    const run = async () => {
+      try {
+        let result = await fetch(URL,{headers:{Range:'bytes=0-1'}});
+        document.getElementById("result1").textContent += result.status;
+        result = await fetch(URL,{headers:{Range:'bytes=1000-1001','X-Custom-Header':'1'}});
+        document.getElementById("result2").textContent += result.status;
+      } catch (e) {
+        document.getElementById("error").textContent += e;
+      }
+    }
+    run();
+  </script>
+</html>
